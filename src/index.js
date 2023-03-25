@@ -16,16 +16,13 @@ refs.input.addEventListener('input', debounce(onClickResearch, DEBOUNCE_DELAY));
 
 
 function onClickResearch(e) {
-    const filter = e.target.value.toLowerCase();
+    const searchName = e.target.value.toLowerCase().trim();
     
-    if (filter === ''){
+    if (searchName === ''){
         refs.list.innerHTML = '';
         refs.info.innerHTML = '';
     } else {
-        fetchCountries()
-        .then(country => {
-            return country.filter(value => value.name.official.toLowerCase().includes(filter.trim()))
-        })
+        fetchCountries(searchName)
         .then(renderCountryCard)
         .catch(onFetchError);
         }
@@ -61,13 +58,11 @@ function renderCountryCard(country){
         <p><span>Languages: </span>${Object.values(languages)}</p>`)
     .join('');
     refs.info.innerHTML = markupAddInfo;
-    } else {
-    onFetchError();
-    refs.list.innerHTML = '';
-    refs.info.innerHTML = '';
-    }
+    } 
 }
 
 function onFetchError () {
     Notify.failure('Oops, there is no country with that name');
+    refs.list.innerHTML = '';
+    refs.info.innerHTML = '';
 }

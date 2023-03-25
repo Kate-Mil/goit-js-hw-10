@@ -1,6 +1,6 @@
 
-export default function fetchCountries(){
-    return fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population,languages')
+export default function fetchCountries(name){
+    return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,flags,capital,population,languages`)
     .then(response => {
         console.log(response);
       if (!response.ok) {
@@ -10,3 +10,4 @@ export default function fetchCountries(){
       return response.json();
     });
     }
+
