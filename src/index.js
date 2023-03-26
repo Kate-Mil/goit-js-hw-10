@@ -19,8 +19,7 @@ function onClickResearch(e) {
     const searchName = e.target.value.toLowerCase().trim();
     
     if (searchName === ''){
-        refs.list.innerHTML = '';
-        refs.info.innerHTML = '';
+        cleanMarckupCArds();
     } else {
         fetchCountries(searchName)
         .then(renderCountryCard)
@@ -30,6 +29,7 @@ function onClickResearch(e) {
 
 
 function renderCountryCard(country){
+cleanMarckupCArds();
 
     if(Number(country.length)>=10){
         Notify.info('Too many matches found. Please enter a more specific name.');
@@ -43,7 +43,7 @@ function renderCountryCard(country){
     .join('');
     refs.list.innerHTML = markup;
     } 
-    else if (Number(country.length)=== 1) {
+    else if (Number(country.length) === 1) {
     const markup = country.map(({ flags, name }) =>
         `<li class="item">
         <img src="${flags.svg}" width="24" height="14"></img>
@@ -63,6 +63,10 @@ function renderCountryCard(country){
 
 function onFetchError () {
     Notify.failure('Oops, there is no country with that name');
+    cleanMarckupCArds();
+}
+
+function cleanMarckupCArds(){
     refs.list.innerHTML = '';
     refs.info.innerHTML = '';
 }
